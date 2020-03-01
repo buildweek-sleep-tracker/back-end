@@ -2,7 +2,7 @@ const database = require("./auth-model");
 
 module.exports = (req, res, next) => {
 
-    getUserBy({ email: req.body })
+    database.getUserBy({ email: req.body.email })
         // do not allow a single email adress to be used to register more than one account
         .then(existingUser => {
             res.status(400).json({message: "An account already exists with this email address."})
