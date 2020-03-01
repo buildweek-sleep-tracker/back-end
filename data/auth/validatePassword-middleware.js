@@ -7,7 +7,9 @@ module.exports = (req, res, next) => {
         
         .then(existingUser => {
 
-            if (existingUser && bcrypt.compareSync(req.body.password, existingUser.password))
+            console.log('existing', existingUser)
+
+            if ((existingUser.length === 1) && bcrypt.compareSync(req.body.password, existingUser[0].password))
                 { next(); }
             else
                 { res.status(401).json({message: "Invalid Credentials."})}
