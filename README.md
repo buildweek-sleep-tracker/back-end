@@ -76,7 +76,7 @@ none
 401|Error|Invalid credentials.|"Invalid credentials"|```{message: "Invalid credentials"}```
 
 
-# API Specifications: Admin View
+# API Specifications: Admin View (for debugging use only)
 
 ## **GET: /api/admin/users**
 
@@ -109,7 +109,7 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |2000|Success|Fetched user data.|none|```{user}```
-500|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
 > ### User info Format
@@ -155,7 +155,7 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |2000|Success|Fetched user data.|none|```{sleep entry}```
-500|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 > ### Sleep Entry Format
 
