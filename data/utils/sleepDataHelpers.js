@@ -1,34 +1,28 @@
-function generateSleepEntry(user_id) {
+function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
 
-    const [time_bedtime, time_waketime] = generateBedtimeAndWaketime();
+    const [time_bedtime, time_waketime] = generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate);
     const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
 
     const [rating_waketime, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
 
-    return { user_id, time_bedtime, time_waketime, rating_waketime, rating_day, rating_bedtime};
+    return { user_id, time_bedtime, time_waketime, total_minutes_slept, rating_waketime, rating_day, rating_bedtime};
 }
 
-function generateBedtimeAndWaketime() {
+function generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate) {
 
-    let bedtime = new Date();
+    let bedtime = new Date(currentDate);
+    bedtime.setDate(bedtime.getDate() - daysBeforeCurrentDate - 1);
 
     // start bedtime at 9pm and wake time at 6am
     let baseBedtime = 21;
     let baseWaketime = 6;
 
     // add a random number of hours to bedtime and waketime
-    let newBedtimeHours = baseBedtime + addHours(3) + addHours(3) + addHours(3);
+    let newBedtimeHours = baseBedtime + addHours(5) + addHours(4);
     let newBedtimeMinutes = getRandom05Minutes() + addMinutes(5);
 
-    let newWaketimeHours = baseWaketime + addHours(2);
+    let newWaketimeHours = baseWaketime + addHours(3);
     let newWaketimeMinutes = getRandom05Minutes() + addMinutes(5);
-
-    // add leading zero to single-digit hours and minutes
-    newBedtimeHours = addLeadingZero(newBedtimeHours);
-    newBedtimeMinutes = addLeadingZero(newBedtimeMinutes);
-
-    newWaketimeHours = addLeadingZero(newWaketimeHours);
-    newWaketimeMinutes = addLeadingZero(newWaketimeMinutes);
 
     // update bedtime object with computed time
     bedtime.setHours(newBedtimeHours);
@@ -36,7 +30,8 @@ function generateBedtimeAndWaketime() {
     bedtime.setSeconds(0);
 
     // make new object for waketime
-    let waketime = new Date(bedtime);
+    let waketime = new Date(currentDate);
+    waketime.setDate(waketime.getDate() - daysBeforeCurrentDate);
     waketime.setHours(newWaketimeHours);
     waketime.setMinutes(newWaketimeMinutes);
 
@@ -140,7 +135,7 @@ function generateRatingGuess(minutes_slept) {
     return rating;
 }
 
-function generateAllThreeRatings(minutes_slept) {
+function generateAllThreeRatings(total_minutes_slept) {
 
     let rating_waketime = generateRatingGuess(total_minutes_slept);
     let rating_day = rating_waketime;
