@@ -21,10 +21,15 @@ router.get("/users/:id", (req, res) => {
 
     database.getUserByID(id)
         .then(users => {
-            res.status(200).json(users);
+
+            // if user found, return user data. Otherwise, return an error message.
+            if (users)
+                { res.status(200).json(users); }
+            else
+                { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
         })
         .catch(error => {
-            res.status(500).json({message: "Could not find a user with id " + id + ".", error})
+            { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
         })    
 })
 
@@ -46,11 +51,17 @@ router.get("/sleepdata/:id", (req, res) => {
     const id = req.params.id;
 
     database.getSleepDataByUserID(id)
-        .then(users => {
-            res.status(200).json(users);
+        .then(sleepdata => {
+
+             // if user found, return user's sleep data. Otherwise, return an error message.
+             if (sleepdata)
+                { res.status(200).json(sleepdata); }
+
+            else
+                { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
         })
         .catch(error => {
-            res.status(500).json({message: "Could not find a user with id " + id + ".", error})
+            res.status(500).json({message: "Could not find a user with id " + id + "."})
         })    
 })
 

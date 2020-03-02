@@ -18,7 +18,8 @@ function getUserByID(id) {
 
     return database("users")
         .where({id})
-        .select("id", "email", "first_name", "last_name");
+        .select("id", "email", "first_name", "last_name")
+        .first()
 }
 
 function getAllSleepData() {
@@ -31,5 +32,6 @@ function getSleepDataByUserID(id) {
 
     return database("sleep_data")
         .where({user_id: id})
+        .first()
         
 }
