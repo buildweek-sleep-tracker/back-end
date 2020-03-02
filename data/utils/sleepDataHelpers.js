@@ -20,7 +20,9 @@ function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
 
     const [rating_wakeup, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
 
-    return { user_id, time_bedtime, time_wakeup, total_minutes_slept, rating_wakeup, rating_day, rating_bedtime};
+    const log_date = time_wakeup;
+
+    return { user_id, log_date, time_bedtime, time_wakeup, rating_wakeup, rating_day, rating_bedtime};
 }
 
 function generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate) {
