@@ -91,3 +91,58 @@ function getTotalMinutesSlept(time_bedtime, time_waketime) {
 
     return 60 * hours + minutes;
 }
+
+// generate a rating guess based on the number of minutes slept
+// for generating seed data use only
+function generateRatingGuess(minutes_slept) {
+
+    let rating = null;
+
+    // 6 hours or fewer: lowest score
+    if (minutes_slept <= 360)
+        { rating = 1; }
+    // 7 hours or fewer
+    else if (minutes_slept <= 420)
+        { rating = 2; }
+    // 8 hours or fewer
+    else if (minutes_slept <= 480)
+        { rating = 3; }
+    else
+        { rating = 4; }
+
+    // randomize ratings: small chance of any rating being upgraded or downgraded
+    if (generateOneInNChance(5))
+        {
+            if (generateOneInNChance(2))
+                { rating += 1; }
+            else
+                { rating -= 1; }
+        }
+
+    // change any ratings of "0" to "1" and any ratings of "5" to "4"
+    if (rating === 0)
+        { rating = 1;}
+    else if (rating === 5)
+        { rating = 4; }
+    
+    // small chance of a "2" rating being upgraded or downgraded
+    if (rating === 2 && generateOneInNChance(10))
+        { rating = 3; }
+    else if (rating === 2 && generateOneInNChance(10))
+        { rating = 4; }
+
+    // small chance of a "4" rating being downgraded
+    else if (rating === 4 && generateOneInNChance(10))
+        { rating = 1; }
+    else if (rating === 4 && generateOneInNChance(10))
+        { rating = 2; }
+    
+    return rating;
+}
+
+// returns true 1/n of the time
+function generateOneInNChance(n)
+    {
+        let randomNumber = Math.floor(Math.random() * n);
+        return randomNumber === 0;
+    }
