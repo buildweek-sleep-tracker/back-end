@@ -1,10 +1,11 @@
 function generateSleepEntry(user_id) {
 
     const [time_bedtime, time_waketime] = generateBedtimeAndWaketime();
-    const [hours_slept, minutes_slept] = getHoursMinutesSlept(time_bedtime, time_waketime);
-    const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
+    // const [hours_slept, minutes_slept] = getHoursMinutesSlept(time_bedtime, time_waketime);
+    // const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
 
-    return { user_id, time_bedtime, time_waketime, hours_slept, minutes_slept, total_minutes_slept }
+    // return { user_id, time_bedtime, time_waketime, hours_slept, minutes_slept, total_minutes_slept }
+    return { user_id, time_bedtime, time_waketime};
 }
 
 function generateBedtimeAndWaketime() {
