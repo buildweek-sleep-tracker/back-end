@@ -75,6 +75,109 @@ none
 400|Error|Missing info.|"Email and password are both required."|```{message: "Email and password are both required."}```
 401|Error|Invalid credentials.|"Invalid credentials"|```{message: "Invalid credentials"}```
 
+
+# API Specifications: Admin View
+
+## **GET: /api/admin/users**
+
+### Returns a list of all users in the database
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched all users.|none|```[{user1}, {user2}, ...]```
+500|Error|Server error.|"Could not get users."|```{message: "Could not get users.", (error)}```
+
+
+## **GET: /api/admin/users/:id**
+
+### Returns info about a user, specified by ID
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|2000|Success|Fetched user data.|none|```{user}```
+500|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+
+
+> ### User info Format
+
+```
+{
+  "id": 2,
+  "email": "sleep@tracker.com",
+  "first_name": "sleep",
+  "last_name": "tracker"
+}
+```
+
+
+## **GET: /api/admin/sleepdata**
+
+### Returns all the sleep data entries in the database
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched all sleep data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
+
+
+## **GET: /api/admin/sleepdata/:id**
+
+### Returns all the sleep entries from a user, specified by ID
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|2000|Success|Fetched user data.|none|```{sleep entry}```
+500|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+
+> ### Sleep Entry Format
+
+```
+  {
+    "id": 1,
+    "user_id": 1,
+    "log_date": 1582554540090,
+    "time_bedtime": 1582526100090,
+    "time_wakeup": 1582554540090,
+    "rating_wakeup": 4,
+    "rating_day": 3,
+    "rating_bedtime": 2,
+    "notes_wakeup": "",
+    "notes_day": "",
+    "notes_bedtime": ""
+  }
+```
+
+
+
+
 # API Specifications: Sleep Data
 
 ## **POST: TBD**

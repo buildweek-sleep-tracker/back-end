@@ -34,17 +34,4 @@ router.post("/login", validateRequestBody, validatePassword, (req, res) => {
     res.status(200).json({message: "Logged in " + req.body.email + ".", token});
 })
 
-// GET: get all users
-router.get("/", (req, res) => {
-    
-    database.getAllUsers()
-        .then(users => {
-            res.status(200).json(users);
-        })
-        .catch(error => {
-            res.status(500).json({message: "Could not get users", error})
-        })    
-})
-
-
 module.exports = router;

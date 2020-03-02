@@ -2,9 +2,7 @@ const database = require("../db-config");
 
 module.exports = {
     addUser,
-    getUserBy,
-
-    getAllUsers
+    getUserBy
 }
 
 function addUser(user) {
@@ -17,9 +15,4 @@ function getUserBy(query) {
 
     return database("users")
         .where(query);
-}
-
-function getAllUsers(query) {
-
-    return database("users");
 }
