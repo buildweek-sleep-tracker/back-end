@@ -2,7 +2,7 @@ const sleepDataHelpers = require("../utils/sleepDataHelpers");
 
 exports.seed = function(knex) {
 
-  return knex("users").insert(generateSeedSleepEntries());
+  return knex("sleep_data").insert(generateSeedSleepEntries());
 
 }
 

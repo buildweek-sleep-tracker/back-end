@@ -15,12 +15,12 @@ module.exports = {
 
 function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
 
-    const [time_bedtime, time_waketime] = generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate);
-    const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
+    const [time_bedtime, time_wakeup] = generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate);
+    const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_wakeup);
 
-    const [rating_waketime, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
+    const [rating_wakeup, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
 
-    return { user_id, time_bedtime, time_waketime, total_minutes_slept, rating_waketime, rating_day, rating_bedtime};
+    return { user_id, time_bedtime, time_wakeup, total_minutes_slept, rating_wakeup, rating_day, rating_bedtime};
 }
 
 function generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate) {
