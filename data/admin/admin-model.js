@@ -2,7 +2,10 @@ const database = require("../db-config");
 
 module.exports = {
     getAllUsers,
-    getAllSleepData
+    getUserByID,
+    getAllSleepData,
+    getSleepDataByUserID
+
 }
 
 function getAllUsers() {
@@ -11,8 +14,22 @@ function getAllUsers() {
         .select("id", "email", "first_name", "last_name");
 }
 
+function getUserByID(id) {
+
+    return database("users")
+        .where({id})
+        .select("id", "email", "first_name", "last_name");
+}
+
 function getAllSleepData() {
 
     return database("sleep_data")
+        
+}
+
+function getSleepDataByUserID(id) {
+
+    return database("sleep_data")
+        .where({user_id: id})
         
 }
