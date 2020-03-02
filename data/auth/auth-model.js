@@ -21,5 +21,6 @@ function getUserBy(query) {
 
 function getAllUsers(query) {
 
-    return database("users");
+    return database("users")
+        .select("id", "email", "first_name", "last_name");
 }
