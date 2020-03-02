@@ -8,6 +8,8 @@ exports.seed = function(knex) {
 
 function generateSeedSleepEntries() {
 
+  // let currentDate = new Date("2020-03-01T00:00:00.090Z");
+  let currentDate = "2020-03-01T00:00:00.090Z";
   let sleepEntries = [];
 
   // number of entries to generate for the seed data (4 users).
@@ -18,9 +20,9 @@ function generateSeedSleepEntries() {
     {
       let entriesToGenerate = entriesToGeneratePerUser[user_id];
 
-      for (let entry_number = 0; entry_number < entriesToGenerate; entry_number++)
+      for (let daysBeforeCurrentDate = entriesToGenerate; daysBeforeCurrentDate > 0; daysBeforeCurrentDate--)
       {
-          sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, entry_number));
+          sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date(currentDate)));
       }
     }
   

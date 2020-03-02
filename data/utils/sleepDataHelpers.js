@@ -1,3 +1,18 @@
+module.exports = {
+    generateSleepEntry,
+    generateBedtimeAndWaketime,
+    addLeadingZero,
+    addHours,
+    addMinutes,
+    getRandom05Minutes,
+    getHoursMinutesSlept,
+    getTotalMinutesSlept,
+    generateRatingGuess,
+    generateRatingGuess,
+    generateAllThreeRatings,
+    generateOneInNChance
+}
+
 function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
 
     const [time_bedtime, time_waketime] = generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate);
