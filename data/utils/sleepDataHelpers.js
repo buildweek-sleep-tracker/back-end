@@ -1,11 +1,11 @@
 function generateSleepEntry(user_id) {
 
     const [time_bedtime, time_waketime] = generateBedtimeAndWaketime();
-    // const [hours_slept, minutes_slept] = getHoursMinutesSlept(time_bedtime, time_waketime);
-    // const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
+    const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_waketime);
 
-    // return { user_id, time_bedtime, time_waketime, hours_slept, minutes_slept, total_minutes_slept }
-    return { user_id, time_bedtime, time_waketime};
+    const [rating_waketime, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
+
+    return { user_id, time_bedtime, time_waketime, rating_waketime, rating_day, rating_bedtime};
 }
 
 function generateBedtimeAndWaketime() {
@@ -138,6 +138,44 @@ function generateRatingGuess(minutes_slept) {
         { rating = 2; }
     
     return rating;
+}
+
+function generateAllThreeRatings(minutes_slept) {
+
+    let rating_waketime = generateRatingGuess(total_minutes_slept);
+    let rating_day = rating_waketime;
+    let rating_bedtime = rating_waketime;
+
+    // randomize ratings: mood might get better or worse throughout the day
+    if (generateOneInNChance(5))
+    {
+        if (generateOneInNChance(2))
+            { rating_day += 1; }
+        else
+            { rating_day -= 1; }
+    }
+
+    // randomize ratings: mood might get better or worse by the end of the day
+    if (generateOneInNChance(5))
+    {
+        if (generateOneInNChance(2))
+            { rating_bedtime += 1; }
+        else
+            { rating_bedtime -= 1; }
+    }
+
+    // change any ratings of "0" to "1" and any ratings of "5" to "4"
+    if (rating_day === 0)
+        { rating_day = 1;}
+    else if (rating_day === 5)
+        { rating_day = 4; }
+
+    if (rating_bedtime === 0)
+        { rating_bedtime = 1;}
+    else if (rating_bedtime === 5)
+        { rating_bedtime = 4; }
+
+    return [rating_waketime, rating_day, rating_bedtime];
 }
 
 // returns true 1/n of the time
