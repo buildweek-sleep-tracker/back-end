@@ -17,6 +17,8 @@ router.post("/register", validateRequestBody, validateUserExists, (req, res) => 
     database.addUser(req.body)
         .then(addedUser => {
             
+            console.log("body has", req.body)
+
             const token = generateToken(req.body);
 
             res.status(200).json({message: "Created account for " + req.body.email, token});
@@ -29,6 +31,8 @@ router.post("/register", validateRequestBody, validateUserExists, (req, res) => 
 // POST: log in a user
 router.post("/login", validateRequestBody, validatePassword, (req, res) => {
     
+    console.log("login body has", req.body)
+
     const token = generateToken(req.body);
 
     res.status(200).json({message: "Logged in " + req.body.email + ".", token});
