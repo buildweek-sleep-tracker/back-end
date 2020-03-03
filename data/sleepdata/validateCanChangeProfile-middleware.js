@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
                     
                     // password is incorrect; stop updating
                     if (!bcrypt.compareSync(req.body.currentPassword, existingUser.password))
-                        { res.status(403).json({message: "Password incorrect. Could not update profile."}); }
+                        { res.status(401).json({message: "Password incorrect. Could not update profile."}); }
 
                     else
                         {

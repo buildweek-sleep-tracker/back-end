@@ -23,6 +23,35 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 ## Heroku link
 > ### <https://sleep-tracker-1.herokuapp.com>
 
+# API Specifications: Summary of All Routes
+
+## Login/Registration routes
+
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|POST|/api/auth/register|Receives data for registration|none
+|POST|/api/auth/login|Receives data for login|none
+
+## Sleep data routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+
+## User profile routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/sleepdata/profile|Retrieves the profile of the user who is logged in|token|
+|PUT|/api/sleepdata/profile|Updates the profile of the user who is logged in|token|
+|DELETE|/api/sleepdata/profile|Deletes the account of the user who is logged in|token|
+
+## Admin routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/admin/users|Retrieves all user profiles in the database|none|
+|GET|/api/admin/users/:id|Retrieves the profile of the user with id `id`|none|
+|GET|/api/admin/sleepdata|Retrieves all sleep data records in the database|none|
+|GET|/api/admin/sleepdata/:id|Retrieves the sleep data record of the user with id `id`|none|
+
+
 # API Specifications: Users
 
 ## **POST: /api/auth/register**
@@ -76,6 +105,84 @@ none
 401|Error|Invalid credentials.|"Invalid credentials"|```{message: "Invalid credentials"}```
 
 
+# API Specifications: Sleep Data
+
+## **GET: /api/sleepdata/profile**
+
+### Returns the profile of the currently-logged in user.
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Profile found.|none|```{user profile}```
+404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
+
+
+## **PUT: /api/sleepdata/profile**
+
+### Updates the profile of the currently-logged in user.
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Profile updated.|"Profile updated.|```{message: "Profile updated..}```
+|200|Success|No new info added.|"No changes were made to your profile".|```{message: "No changes were made to your profile".}```
+|400|Error|Current password not specified.|"You must enter your old password to make any changes to your profile".|```{message: "You must enter your old password to make any changes to your profile."}```
+|401|Error|Current password not specified.|"Password incorrect. Could not update profile".|```{message: "Password incorrect. Could not update profile."}```
+|400|Error|Email address already used by another user.|"Email address already in use".|```{message: "Email address already in use."}```
+500|Error|Server error.|"Server error in validating credentials."|```{message: "Server error in validating credentials.", (error)}```
+500|Error|Server error.|"Server error in updating profile."|```{message: "Server error in updating profile.", (error)}```
+
+
+> ### Input
+
+#### `currentPassword` is required, but  all other properties are optional.
+
+```
+{
+    currentPassword: (string),
+    newPassword: (string),
+    newEmail: (string),
+    newFirstName: (string),
+    newLastName: (string)
+}
+```
+
+## **DELETE: /api/sleepdata/profile**
+
+### Deletes the account of the currently-logged in user.
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Profile found.|none|```{user profile}```
+404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
+
+
 # API Specifications: Admin View (for debugging use only)
 
 ## **GET: /api/admin/users**
@@ -108,7 +215,7 @@ none
 
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|2000|Success|Fetched user data.|none|```{user}```
+|200|Success|Fetched user data.|none|```{user}```
 404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
