@@ -23,6 +23,35 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 ## Heroku link
 > ### <https://sleep-tracker-1.herokuapp.com>
 
+# API Specifications: Summary of All Routes
+
+## Login/Registration routes
+
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|POST|/api/auth/register|Receives data for registration|none
+|POST|/api/auth/login|Receives data for login|none
+
+## Sleep data routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+
+## User profile routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/sleepdata/profile|Retrieves the profile of the user who is logged in|token|
+|PUT|/api/sleepdata/profile|Updates the profile of the user who is logged in|token|
+|DELETE|/api/sleepdata/profile|Deletes the account of the user who is logged in|token|
+
+## Admin routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/admin/users|Retrieves all user profiles in the database|none|
+|GET|/api/admin/users/:id|Retrieves the profile of the user with id `id`|none|
+|GET|/api/admin/sleepdata|Retrieves all sleep data records in the database|none|
+|GET|/api/admin/sleepdata/:id|Retrieves the sleep data record of the user with id `id`|none|
+
+
 # API Specifications: Users
 
 ## **POST: /api/auth/register**
