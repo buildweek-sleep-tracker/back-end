@@ -55,10 +55,10 @@ function deleteUser(id) {
 }
 
 
-function getSleepEntry(id) {
+function getSleepEntry(user_id, sleep_entry_id) {
 
     return database("sleep_data")
-        .where({id})
+        .where({user_id, sleep_entry_id})
 }
 
 function addSleepEntry(entry) {
@@ -67,16 +67,16 @@ function addSleepEntry(entry) {
         .insert(entry)
 }
 
-function editSleepEntry(id, entry) {
+function editSleepEntry(id, user_id, sleep_entry_id) {
 
     return database("sleep_data")
         .where({id})
-        .update(entry)
+        .where({user_id, sleep_entry_id})
 }
 
-function deleteSleepEntry(id) {
+function deleteSleepEntry(user_id, sleep_entry_id) {
 
     return database("sleep_data")
-        .where({id})
+        .where({user_id, sleep_entry_id})
         .del()
 }
