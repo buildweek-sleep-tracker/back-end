@@ -4,8 +4,6 @@ const jwtSecret = require("./jwtSecret");
 
 module.exports = (user) => {
 
-    console.log("about to be added to token", user)
-
     const payload = {
         subject: user.id,
         id: user.id,
