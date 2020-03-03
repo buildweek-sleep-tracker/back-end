@@ -32,14 +32,6 @@ function getUserByID(id) {
         .first()
 }
 
-function getSleepDataByUserID(id) {
-
-    return database("sleep_data")
-        .where({user_id: id})
-        .first()
-        
-}
-
 function updateUser(id, profile) {
 
     return database("users")
@@ -54,6 +46,12 @@ function deleteUser(id) {
         .del()
 }
 
+
+function getSleepDataByUserID(id) {
+
+    return database("sleep_data")
+        .where({user_id: id})
+}
 
 function getSleepEntry(user_id, sleep_entry_id) {
 
