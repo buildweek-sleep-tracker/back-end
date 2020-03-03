@@ -4,7 +4,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const authRouter = require("./data/auth/auth-router");
+const sleepDataRouter = require("./data/sleepdata/sleepdata-router");
 const adminRouter = require("./data/admin/admin-router");
+
+const validateTokenMiddleware = require("./data/auth/validateToken-middleware");
 
 const server = express();
 
@@ -13,6 +16,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use("/api/auth", authRouter);
+server.use("/api/data", validateTokenMiddleware, sleepDataRouter);
 server.use("/api/admin", adminRouter);
 
 // Fallback in case an invalid route is encountered anywhere in the routes above

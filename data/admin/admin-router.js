@@ -26,10 +26,10 @@ router.get("/users/:id", (req, res) => {
             if (users)
                 { res.status(200).json(users); }
             else
-                { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
+                { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
         })
         .catch(error => {
-            { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
+            { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
         })    
 })
 
@@ -58,10 +58,10 @@ router.get("/sleepdata/:id", (req, res) => {
                 { res.status(200).json(sleepdata); }
 
             else
-                { res.status(500).json({message: "Could not find a user with id " + id + "."}) }
+                { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
         })
         .catch(error => {
-            res.status(500).json({message: "Could not find a user with id " + id + "."})
+            res.status(404).json({message: "Could not find a user with id " + id + "."})
         })    
 })
 

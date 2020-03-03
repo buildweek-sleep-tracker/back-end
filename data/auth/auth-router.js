@@ -17,6 +17,9 @@ router.post("/register", validateRequestBody, validateUserExists, (req, res) => 
     database.addUser(req.body)
         .then(addedUser => {
             
+            const userID = addedUser[0];
+            req.body.id = userID;
+
             const token = generateToken(req.body);
 
             res.status(200).json({message: "Created account for " + req.body.email, token});

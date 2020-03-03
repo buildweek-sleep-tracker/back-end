@@ -1,11 +1,12 @@
 const database = require("../db-config");
 
+const { getUserByID, getSleepDataByUserID } = require("../sleepdata/sleepdata-model");;
+
 module.exports = {
     getAllUsers,
-    getUserByID,
     getAllSleepData,
+    getUserByID,
     getSleepDataByUserID
-
 }
 
 function getAllUsers() {
@@ -14,24 +15,8 @@ function getAllUsers() {
         .select("id", "email", "first_name", "last_name");
 }
 
-function getUserByID(id) {
-
-    return database("users")
-        .where({id})
-        .select("id", "email", "first_name", "last_name")
-        .first()
-}
-
 function getAllSleepData() {
 
     return database("sleep_data")
-        
-}
-
-function getSleepDataByUserID(id) {
-
-    return database("sleep_data")
-        .where({user_id: id})
-        .first()
         
 }
