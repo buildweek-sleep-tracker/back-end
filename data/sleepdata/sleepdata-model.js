@@ -6,9 +6,12 @@ module.exports = {
     getSleepDataByUserID,
 
     updateUser,
-    deleteUser
+    deleteUser,
 
-
+    getSleepEntry,
+    addSleepEntry,
+    editSleepEntry,
+    deleteSleepEntry
 }
 
 
@@ -40,13 +43,40 @@ function getSleepDataByUserID(id) {
 function updateUser(id, profile) {
 
     return database("users")
-    .where({id})
-    .update(profile)
+        .where({id})
+        .update(profile)
 }
 
 function deleteUser(id) {
 
     return database("users")
-    .where({id})
-    .del()
+        .where({id})
+        .del()
+}
+
+
+function getSleepEntry(id) {
+
+    return database("sleep_data")
+        .where({id})
+}
+
+function addSleepEntry(entry) {
+
+    return database("sleep_data")
+        .insert(entry)
+}
+
+function editSleepEntry(id, entry) {
+
+    return database("sleep_data")
+        .where({id})
+        .update(entry)
+}
+
+function deleteSleepEntry(id) {
+
+    return database("sleep_data")
+        .where({id})
+        .del()
 }
