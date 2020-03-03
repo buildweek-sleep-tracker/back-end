@@ -2,7 +2,11 @@ const database = require("../db-config");
 
 module.exports = {
     getUserByID,
-    getSleepDataByUserID
+    getSleepDataByUserID,
+
+    updateUser,
+    deleteUser
+
 
 }
 
@@ -20,4 +24,18 @@ function getSleepDataByUserID(id) {
         .where({user_id: id})
         .first()
         
+}
+
+function updateUser(id, profile) {
+
+    return database("users")
+    .where({id})
+    .update(profile)
+}
+
+function deleteUser(id) {
+
+    return database("users")
+    .where({id})
+    .del()
 }
