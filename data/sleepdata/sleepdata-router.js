@@ -2,10 +2,10 @@ const router = require("express").Router();
 
 const database = require("./sleepdata-model");
 
-// GET: get info from a user by user ID
-router.get("/users/:id", (req, res) => {
+// GET: get info from a user by user ID (stored in token)
+router.get("/profile", (req, res) => {
     
-    const id = req.params.id;
+    const id = req.decodedToken.id;
 
     database.getUserByID(id)
         .then(users => {
@@ -21,23 +21,21 @@ router.get("/users/:id", (req, res) => {
         })    
 })
 
-// GET: get sleep data from a user by user ID
-router.get("/sleepdata/:id", (req, res) => {
+// GET: get all sleep data from a user by user ID (stored in token)
+router.get("/sleepdata", (req, res) => {
     
-    const id = req.params.id;
+    const id = req.decodedToken.id;
 
     database.getSleepDataByUserID(id)
         .then(sleepdata => {
 
-             // if user found, return user's sleep data. Otherwise, return an error message.
-             if (sleepdata)
+            if (sleepdata)
                 { res.status(200).json(sleepdata); }
-
             else
-                { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
+                { res.status(200).json([]); }
         })
         .catch(error => {
-            res.status(404).json({message: "Could not find a user with id " + id + "."})
+            res.status(404).json({message: "Could not get sleep data for user ID " + id + "."})
         })    
 })
 
