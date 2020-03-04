@@ -1,4 +1,4 @@
-const database = require("./sleepdata-model");
+const database = require("../profile/profile-model");
 
 module.exports = (req, res, next) => {
 
