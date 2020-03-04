@@ -92,6 +92,25 @@ router.get("/sleepdata", (req, res) => {
         })    
 })
 
+// POST: adds a new sleep entry for the logged-in user
+router.post("/sleepdata", (req, res) => {
+    
+    const user_id = req.decodedToken.id;
+    const entry = req.body;
+
+    database.addSleepEntry(entry)
+        .then(sleepdata => {
+
+            if (sleepdata)
+                { res.status(200).json(sleepdata); }
+            else
+                { res.status(200).json([]); }
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not add new sleep entry."})
+        })    
+})
+
 // GET: get the sleep entry with the specified ID
 router.get("/sleepdata/:id", (req, res) => {
     
@@ -108,6 +127,26 @@ router.get("/sleepdata/:id", (req, res) => {
         })
         .catch(error => {
             res.status(404).json({message: "Could not get sleep entry with id " + sleep_entry_id + "."})
+        })    
+})
+
+// PUT: edits an existing sleep entry for the logged-in user
+router.put("/sleepdata/:id", (req, res) => {
+    
+    const user_id = req.decodedToken.id;
+    const sleep_entry_id = req.params.id;
+    const entry = req.body;
+
+    database.editSleepEntry(user_id, entry, sleep_entry_id)
+        .then(sleepdata => {
+
+            if (sleepdata)
+                { res.status(200).json(sleepdata); }
+            else
+                { res.status(200).json([]); }
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not add new sleep entry."})
         })    
 })
 
