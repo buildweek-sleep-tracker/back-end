@@ -25,27 +25,27 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 
 # API Specifications: Summary of All Routes
 
-## Login/Registration routes
+## Login and Registration routes
 
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |POST|/api/auth/register|Receives data for registration|none
 |POST|/api/auth/login|Receives data for login|none
 
+## User profile routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/profile|Retrieves the profile of the user who is logged in|token|
+|PUT|/api/profile|Updates the profile of the user who is logged in|token|
+|DELETE|/api/profile|Deletes the account of the user who is logged in|token|
+
 ## Sleep data routes
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |GET|/api/sleepdata|Retrieves all sleep entries of the user who is logged in|token|
 |POST|/api/sleepdata|Creates a new entry for the user who is logged in|token|
-|PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for  the user who is logged in|token|
+|PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for the user who is logged in|token|
 |DELETE|/api/sleepdata/:id|Deletes the sleep entry with the given ID for the user who is logged in|token|
-
-## User profile routes
-|Method|Route|Description|Authorization|
-|------|-----|-----------|-------------|
-|GET|/api/sleepdata/profile|Retrieves the profile of the user who is logged in|token|
-|PUT|/api/sleepdata/profile|Updates the profile of the user who is logged in|token|
-|DELETE|/api/sleepdata/profile|Deletes the account of the user who is logged in|token|
 
 ## Admin routes
 |Method|Route|Description|Authorization|
@@ -56,7 +56,7 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |GET|/api/admin/sleepdata/:id|Retrieves the sleep data record of the user with id `id`|none|
 
 
-# API Specifications: Users
+# API Specifications: Login and Registration
 
 ## **POST: /api/auth/register**
 
@@ -109,9 +109,9 @@ none
 401|Error|Invalid credentials.|"Invalid credentials"|```{message: "Invalid credentials"}```
 
 
-# API Specifications: Sleep Data
+# API Specifications: Profiles
 
-## **GET: /api/sleepdata/profile**
+## **GET: /api/profile**
 
 ### Returns the profile of the currently-logged in user.
 
@@ -130,7 +130,7 @@ none
 404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
 
 
-## **PUT: /api/sleepdata/profile**
+## **PUT: /api/profile**
 
 ### Updates the profile of the currently-logged in user.
 
@@ -156,11 +156,9 @@ none
 
 > ### Input
 
-#### `currentPassword` is required, but  all other properties are optional.
-
 ```
 {
-    currentPassword: (string),
+    currentPassword: (string),  // required
     newPassword: (string),
     newEmail: (string),
     newFirstName: (string),
@@ -168,7 +166,7 @@ none
 }
 ```
 
-## **DELETE: /api/sleepdata/profile**
+## **DELETE: /api/profile**
 
 ### Deletes the account of the currently-logged in user.
 
@@ -286,16 +284,18 @@ none
   }
 ```
 
-
-
-
 # API Specifications: Sleep Data
 
-## **POST: TBD**
+
+## **GET: /api/sleepdata**
+
+### Retrieves all sleep entries of the user who is logged in
 
 > ### Auth Required to Access:
 ```
-{ token: (string) }
+{
+    Authorization: { token: (token) }
+}
 ```
 
 
@@ -312,11 +312,16 @@ TBD
 |------|----|-----------|-------|------------|
 
 
-## **GET: TBD**
+
+## **POST: /api/sleepdata**
+
+### Creates a new entry for the user who is logged in
 
 > ### Auth Required to Access:
 ```
-{ token: (string) }
+{
+    Authorization: { token: (token) }
+}
 ```
 
 
@@ -332,11 +337,15 @@ TBD
 |------|----|-----------|-------|------------|
 |------|----|-----------|-------|------------|
 
-## **PUT: TBD**
+## **PUT: /api/sleepdata/:id**
+
+### Edits the sleep entry with the given ID for the user who is logged in
 
 > ### Auth Required to Access:
 ```
-{ token: (string) }
+{
+    Authorization: { token: (token) }
+}
 ```
 
 
@@ -352,11 +361,15 @@ TBD
 |------|----|-----------|-------|------------|
 |------|----|-----------|-------|------------|
 
-## **DELETE: TBD**
+## **DELETE: /api/sleepdata**
+
+### Deletes the sleep entry with the given ID for the user who is logged in
 
 > ### Auth Required to Access:
 ```
-{ token: (string) }
+{
+    Authorization: { token: (token) }
+}
 ```
 
 
