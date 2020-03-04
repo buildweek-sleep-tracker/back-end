@@ -33,20 +33,8 @@ router.get("/users/:id", (req, res) => {
         })    
 })
 
-// GET: get all sleepdata
-router.get("/sleepdata", (req, res) => {
-    
-    database.getAllSleepData()
-        .then(sleepdata => {
-            res.status(200).json(sleepdata);
-        })
-        .catch(error => {
-            res.status(500).json({message: "Could not get sleep data.", error})
-        })    
-})
-
 // GET: get sleep data from a user by user ID
-router.get("/sleepdata/:id", (req, res) => {
+router.get("/users/:id/sleepdata", (req, res) => {
     
     const id = req.params.id;
 
@@ -66,5 +54,34 @@ router.get("/sleepdata/:id", (req, res) => {
 })
 
 
+// GET: get all sleepdata
+router.get("/sleepdata", (req, res) => {
+    
+    database.getAllSleepData()
+        .then(sleepdata => {
+            res.status(200).json(sleepdata);
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not get sleep data.", error})
+        })    
+})
+
+
+// GET: sleepdata entry with specified ID number
+router.get("/sleepdata/:id", (req, res) => {
+    
+    let id = req.params.id;
+
+    database.getSleepDataByID(id)
+        .then(sleepdata => {
+            if (sleepdata)
+                { res.status(200).json(sleepdata); }
+            else
+                { res.status(404).json({message: "Could not find a sleep entry with id " + id + "."}) }
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not get sleep data.", error})
+        })    
+})
 
 module.exports = router;

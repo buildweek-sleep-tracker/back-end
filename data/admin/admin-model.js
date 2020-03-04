@@ -7,7 +7,9 @@ module.exports = {
     getAllUsers,
     getAllSleepData,
     getUserByID,
-    getSleepDataByUserID
+    getSleepDataByUserID,
+    getSleepDataByID
+
 }
 
 function getAllUsers() {
@@ -20,4 +22,12 @@ function getAllSleepData() {
 
     return database("sleep_data")
         
+}
+
+
+function getSleepDataByID(sleep_entry_id) {
+
+    return database("sleep_data")
+        .where({id: sleep_entry_id})
+        .first()
 }

@@ -52,9 +52,10 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |GET|/api/admin/users|Retrieves all user profiles in the database|none|
-|GET|/api/admin/users/:id|Retrieves the profile of the user with id `id`|none|
+|GET|/api/admin/users/:id|Retrieves the profile of the user with specified ID|none|
+|GET|/api/admin/users/:id/sleepdata|Retrieves the sleep data record of the user with specified ID|none|
 |GET|/api/admin/sleepdata|Retrieves all sleep data records in the database|none|
-|GET|/api/admin/sleepdata/:id|Retrieves the sleep data record of the user with id `id`|none|
+|GET|/api/admin/sleepdata/:id|Retrieves sleep data entry with specified ID|none|
 
 
 # API Specifications: Login and Registration
@@ -184,88 +185,6 @@ none
 |------|----|-----------|-------|------------|
 |200|Success|Profile found.|none|```{user profile}```
 404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
-
-
-# API Specifications: Admin View (for debugging use only)
-
-## **GET: /api/admin/users**
-
-### Returns a list of all users in the database
-
-> ### Auth Required to Access:
-```
-none
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|200|Success|Fetched all users.|none|```[{user1}, {user2}, ...]```
-500|Error|Server error.|"Could not get users."|```{message: "Could not get users.", (error)}```
-
-
-## **GET: /api/admin/users/:id**
-
-### Returns info about a user, specified by ID
-
-> ### Auth Required to Access:
-```
-none
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|200|Success|Fetched user data.|none|```{user}```
-404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
-
-
-> ### User info Format
-
-```
-{
-  "id": 2,
-  "email": "sleep@tracker.com",
-  "first_name": "sleep",
-  "last_name": "tracker"
-}
-```
-
-
-## **GET: /api/admin/sleepdata**
-
-### Returns all the sleep data entries in the database
-
-> ### Auth Required to Access:
-```
-none
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|200|Success|Fetched all sleep data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
-500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
-
-
-## **GET: /api/admin/sleepdata/:id**
-
-### Returns all the sleep entries from a user, specified by ID
-
-> ### Auth Required to Access:
-```
-none
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|200|Success|Fetched user data.|none|```{sleep entry}```
-404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
 # API Specifications: Sleep Data
@@ -423,3 +342,102 @@ none
 |200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
 |403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
 500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```
+
+
+# API Specifications: Admin View (for debugging use only)
+
+## **GET: /api/admin/users**
+
+### Returns a list of all users in the database
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched all users.|none|```[{user1}, {user2}, ...]```
+500|Error|Server error.|"Could not get users."|```{message: "Could not get users.", (error)}```
+
+
+## **GET: /api/admin/users/:id**
+
+### Returns info about a user, specified by ID
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched user data.|none|```{user}```
+404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+
+
+> ### User info Format
+
+```
+{
+  "id": 2,
+  "email": "sleep@tracker.com",
+  "first_name": "sleep",
+  "last_name": "tracker"
+}
+```
+
+## **GET: /api/admin/users/:id/sleepdata**
+
+### Returns all the sleep entries from a user, specified by ID
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched user data.|none|```{sleep entry}```
+404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+
+
+## **GET: /api/admin/sleepdata**
+
+### Returns all the sleep data entries in the database
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched all sleep data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
+
+## **GET: /api/admin/sleepdata/:id**
+
+### Returns the sleep data entry with the specified ID
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Fetched all sleep data.|none|```{sleep entry}```
+404|Error|Sleep entry not found.|"Could not find a sleep entry with id (id)."|```{message: "Could not find a sleep entry with id (id)."}```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
+
