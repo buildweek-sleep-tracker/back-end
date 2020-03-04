@@ -1,52 +1,42 @@
 const database = require("../db-config");
 
 module.exports = {
-    getUserBy,
-    getUserByID,
+
     getSleepDataByUserID,
-
-    updateUser,
-    deleteUser
-
-
-}
-
-
-function getUserBy(query) {
-
-    return database("users")
-        .where(query)
-        .select("id", "email", "first_name", "last_name", "password")
-        .first()
-}
-
-
-function getUserByID(id) {
-
-    return database("users")
-        .where({id})
-        .select("id", "email", "first_name", "last_name", "password")
-        .first()
+    getSleepEntry,
+    addSleepEntry,
+    editSleepEntry,
+    deleteSleepEntry
 }
 
 function getSleepDataByUserID(id) {
 
     return database("sleep_data")
         .where({user_id: id})
-        .first()
-        
 }
 
-function updateUser(id, profile) {
+function getSleepEntry(user_id, sleep_entry_id) {
 
-    return database("users")
-    .where({id})
-    .update(profile)
+    return database("sleep_data")
+        .where({user_id, id: sleep_entry_id})
 }
 
-function deleteUser(id) {
+function addSleepEntry(entry) {
 
-    return database("users")
-    .where({id})
-    .del()
+    return database("sleep_data")
+        .insert(entry)
+}
+
+function editSleepEntry(user_id, sleep_entry_id, entry) {
+
+    return database("sleep_data")
+        .where({user_id, id: sleep_entry_id})
+        .update(entry)
+}
+
+function deleteSleepEntry(user_id, sleep_entry_id) {
+
+    return database("sleep_data")
+        .where({user_id, id: sleep_entry_id})
+        .del()
 }

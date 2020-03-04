@@ -25,23 +25,27 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 
 # API Specifications: Summary of All Routes
 
-## Login/Registration routes
+## Login and Registration routes
 
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |POST|/api/auth/register|Receives data for registration|none
 |POST|/api/auth/login|Receives data for login|none
 
-## Sleep data routes
-|Method|Route|Description|Authorization|
-|------|-----|-----------|-------------|
-
 ## User profile routes
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
-|GET|/api/sleepdata/profile|Retrieves the profile of the user who is logged in|token|
-|PUT|/api/sleepdata/profile|Updates the profile of the user who is logged in|token|
-|DELETE|/api/sleepdata/profile|Deletes the account of the user who is logged in|token|
+|GET|/api/profile|Retrieves the profile of the user who is logged in|token|
+|PUT|/api/profile|Updates the profile of the user who is logged in|token|
+|DELETE|/api/profile|Deletes the account of the user who is logged in|token|
+
+## Sleep data routes
+|Method|Route|Description|Authorization|
+|------|-----|-----------|-------------|
+|GET|/api/sleepdata|Retrieves all sleep entries of the user who is logged in|token|
+|POST|/api/sleepdata|Creates a new entry for the user who is logged in|token|
+|PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for the user who is logged in|token|
+|DELETE|/api/sleepdata/:id|Deletes the sleep entry with the given ID for the user who is logged in|token|
 
 ## Admin routes
 |Method|Route|Description|Authorization|
@@ -52,7 +56,7 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |GET|/api/admin/sleepdata/:id|Retrieves the sleep data record of the user with id `id`|none|
 
 
-# API Specifications: Users
+# API Specifications: Login and Registration
 
 ## **POST: /api/auth/register**
 
@@ -105,9 +109,9 @@ none
 401|Error|Invalid credentials.|"Invalid credentials"|```{message: "Invalid credentials"}```
 
 
-# API Specifications: Sleep Data
+# API Specifications: Profiles
 
-## **GET: /api/sleepdata/profile**
+## **GET: /api/profile**
 
 ### Returns the profile of the currently-logged in user.
 
@@ -126,7 +130,7 @@ none
 404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
 
 
-## **PUT: /api/sleepdata/profile**
+## **PUT: /api/profile**
 
 ### Updates the profile of the currently-logged in user.
 
@@ -152,11 +156,9 @@ none
 
 > ### Input
 
-#### `currentPassword` is required, but  all other properties are optional.
-
 ```
 {
-    currentPassword: (string),
+    currentPassword: (string),  // required
     newPassword: (string),
     newEmail: (string),
     newFirstName: (string),
@@ -164,7 +166,7 @@ none
 }
 ```
 
-## **DELETE: /api/sleepdata/profile**
+## **DELETE: /api/profile**
 
 ### Deletes the account of the currently-logged in user.
 
@@ -261,8 +263,23 @@ none
 
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|2000|Success|Fetched user data.|none|```{sleep entry}```
+|200|Success|Fetched user data.|none|```{sleep entry}```
 404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+
+
+# API Specifications: Sleep Data
+
+
+## **GET: /api/sleepdata**
+
+### Retrieves all sleep entries of the user who is logged in
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
 
 > ### Sleep Entry Format
 
@@ -276,95 +293,93 @@ none
     "rating_wakeup": 4,
     "rating_day": 3,
     "rating_bedtime": 2,
-    "notes_wakeup": "",
+    "notes_wakeup": "stayed up late to study for exam",
+    "notes_day": "",
+    "notes_bedtime": ""
+  }
+```
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
+500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
+
+## **POST: /api/sleepdata**
+
+### Creates a new entry for the user who is logged in
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
+
+
+> ### Input
+
+```
+  {
+    "user_id": 1,   // required
+    "log_date": 1582554540090,  // required
+    "time_bedtime": 1582526100090,
+    "time_wakeup": 1582554540090,
+    "rating_wakeup": 4,
+    "rating_day": 3,
+    "rating_bedtime": 2,
+    "notes_wakeup": "stayed up late to study for exam",
     "notes_day": "",
     "notes_bedtime": ""
   }
 ```
 
+> ### Status Codes and Messages
 
+|Status|Type|Description|Message|Return Value
+|201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
+|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
+|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
+500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
 
+## **PUT: /api/sleepdata/:id**
 
-# API Specifications: Sleep Data
-
-## **POST: TBD**
+### Edits the sleep entry with the given ID for the user who is logged in
 
 > ### Auth Required to Access:
 ```
-{ token: (string) }
+{
+    Authorization: { token: (token) }
+}
+```
+
+> ### Status Codes and Messages
+|Status|Type|Description|Message|Return Value
+|200|Success|Edited sleep entry.|Sleep entry #(id) updated|```{message: "Sleep entry #(id) updated."}```|none
+|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
+|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
+|403|Success|Could not edit sleep entry.|Sleep entry #(id) is not an entry you can edit.|```{message: "Sleep entry #(id) entry you can edit."}```|none
+500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```
+
+## **DELETE: /api/sleepdata**
+
+### Deletes the sleep entry with the given ID for the user who is logged in
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
 ```
 
 
 > ### Input
 
 ```
-TBD
+none
 ```
 
 > ### Status Codes and Messages
-
 |Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
-
-## **GET: TBD**
-
-> ### Auth Required to Access:
-```
-{ token: (string) }
-```
-
-
-> ### Input
-
-```
-TBD
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
-## **PUT: TBD**
-
-> ### Auth Required to Access:
-```
-{ token: (string) }
-```
-
-
-> ### Input
-
-```
-TBD
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
-## **DELETE: TBD**
-
-> ### Auth Required to Access:
-```
-{ token: (string) }
-```
-
-
-> ### Input
-
-```
-TBD
-```
-
-> ### Status Codes and Messages
-
-|Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
+|200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
+|403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
+500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```

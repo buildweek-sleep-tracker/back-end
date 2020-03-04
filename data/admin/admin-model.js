@@ -1,6 +1,7 @@
 const database = require("../db-config");
 
-const { getUserByID, getSleepDataByUserID } = require("../sleepdata/sleepdata-model");;
+const { getUserByID } = require("../profile/profile-model");
+const { getSleepDataByUserID } = require("../sleepdata/sleepdata-model");
 
 module.exports = {
     getAllUsers,
