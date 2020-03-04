@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const database = require("./admin-model");
+const sleepDataHelpers = require("../utils/sleepDataHelpers");
 
 // GET: get all users
 router.get("/users", (req, res) => {
@@ -67,6 +68,31 @@ router.get("/sleepdata", (req, res) => {
 })
 
 
+// GET: generate sleepdata entry or entries with specified user ID number
+router.get("/sleepdata/generate", (req, res) => {
+    
+    if (!req.query || (req.query && !req.query.user_id))
+        { res.status(400).json({message: "Required user_id missing."}) }
+
+    else if (req.query.entries && req.query.entries > 10000)
+        { res.status(400).json({message: "Too many sleep entries requested."}) }
+        
+    else
+        {
+            let entriesToGenerate = req.query.entries || 1;
+            let user_id = req.query.user_id;
+
+            let sleepEntries = [];
+
+            for (let daysBeforeCurrentDate = entriesToGenerate; daysBeforeCurrentDate > 0; daysBeforeCurrentDate--)
+                {
+                    sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date()));
+                }
+            res.status(200).json(sleepEntries);
+        }
+})
+
+
 // GET: sleepdata entry with specified ID number
 router.get("/sleepdata/:id", (req, res) => {
     
@@ -83,5 +109,6 @@ router.get("/sleepdata/:id", (req, res) => {
             res.status(500).json({message: "Could not get sleep data.", error})
         })    
 })
+
 
 module.exports = router;

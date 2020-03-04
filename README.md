@@ -53,9 +53,10 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |------|-----|-----------|-------------|
 |GET|/api/admin/users|Retrieves all user profiles in the database|none|
 |GET|/api/admin/users/:id|Retrieves the profile of the user with specified ID|none|
-|GET|/api/admin/users/:id/sleepdata|Retrieves the sleep data record of the user with specified ID|none|
+|GET|/api/admin/users/:id/sleepdata|Retrieves all sleep data records of the user with specified ID|none|
 |GET|/api/admin/sleepdata|Retrieves all sleep data records in the database|none|
 |GET|/api/admin/sleepdata/:id|Retrieves sleep data entry with specified ID|none|
+|GET|/api/admin/sleepdata/generate?entries=x&user_id=y|Generates `x` days of sleep entries (dummy data) for user with ID `y`|none|
 
 
 # API Specifications: Login and Registration
@@ -451,3 +452,50 @@ none
 404|Error|Sleep entry not found.|"Could not find a sleep entry with id (id)."|```{message: "Could not find a sleep entry with id (id)."}```
 500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
 
+
+## **GET: /api/admin/sleepdata/generate?entries=x&user_id=y**
+
+### Generates `x` days of sleep entries (dummy data) for user with ID `y`.
+
+If `entries` is not specified as a query, then one entry will be generated.
+
+These entries **are not added to the database**. The purpose of this endpoint is to return dummy data so that the front-end developers can build a calendar view without needing to manually insert each entry.
+
+> ### Examples:
+```
+/api/admin/sleepdata/generate?entries=5&user_id=3       // generates 5 entries for user #3
+/api/admin/sleepdata/generate?user_id=10                // generates 1 entries for user #10
+/api/admin/sleepdata/generate?entries=1000&user_id=7       // generates 1000 entries for user #7
+```
+
+> ### Output format
+
+Each sleep entry is dated for a different day. If 10 entries were requested, then the earliest entry will be 10 days before today (the day the URL is accessed). The last entry will be dated for yesterday.
+
+```
+  // GET /api/admin/sleepdata/generate?entries=10&user_id=4
+  // generate 10 sleep entries for user #4
+
+  [
+    { ... } // sleep entry for 10 days before today
+    { ... } // sleep entry for 9 days before today
+    { ... } // sleep entry for 8 days before today
+       ⋮
+    { ... } // sleep entry for 2 days before today
+    { ... } // sleep entry for 1 day before today
+  ]
+```
+
+> ### Auth Required to Access:
+```
+none
+```
+
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Generated sleep data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
+400|Error|Missing user_id query in URL.|"Required user_id missing."|```{message: "Required user_id missing."}```
+400|Error|`entries` value too big (10,000 or larger).|"Too many sleep entries requested."|```{message: "Too many sleep entries requested."}```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
