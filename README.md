@@ -266,23 +266,6 @@ none
 |2000|Success|Fetched user data.|none|```{sleep entry}```
 404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
-> ### Sleep Entry Format
-
-```
-  {
-    "id": 1,
-    "user_id": 1,
-    "log_date": 1582554540090,
-    "time_bedtime": 1582526100090,
-    "time_wakeup": 1582554540090,
-    "rating_wakeup": 4,
-    "rating_day": 3,
-    "rating_bedtime": 2,
-    "notes_wakeup": "",
-    "notes_day": "",
-    "notes_bedtime": ""
-  }
-```
 
 # API Specifications: Sleep Data
 
@@ -298,13 +281,23 @@ none
 }
 ```
 
-
-> ### Input
+> ### Sleep Entry Format
 
 ```
-TBD
+  {
+    "id": 1,
+    "user_id": 1,
+    "log_date": 1582554540090,
+    "time_bedtime": 1582526100090,
+    "time_wakeup": 1582554540090,
+    "rating_wakeup": 4,
+    "rating_day": 3,
+    "rating_bedtime": 2,
+    "notes_wakeup": "stayed up late to study for exam",
+    "notes_day": "",
+    "notes_bedtime": ""
+  }
 ```
-
 > ### Status Codes and Messages
 
 |Status|Type|Description|Message|Return Value
@@ -328,7 +321,18 @@ TBD
 > ### Input
 
 ```
-TBD
+  {
+    "user_id": 1,   // required
+    "log_date": 1582554540090,  // required
+    "time_bedtime": 1582526100090,
+    "time_wakeup": 1582554540090,
+    "rating_wakeup": 4,
+    "rating_day": 3,
+    "rating_bedtime": 2,
+    "notes_wakeup": "stayed up late to study for exam",
+    "notes_day": "",
+    "notes_bedtime": ""
+  }
 ```
 
 > ### Status Codes and Messages
@@ -346,13 +350,6 @@ TBD
 {
     Authorization: { token: (token) }
 }
-```
-
-
-> ### Input
-
-```
-TBD
 ```
 
 > ### Status Codes and Messages

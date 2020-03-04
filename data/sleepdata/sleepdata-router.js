@@ -29,6 +29,8 @@ router.post("/", validateSleepEntry, (req, res) => {
     req.body.user_id = req.decodedToken.id;
     const entry = req.body;
 
+    console.log("about to add", entry);
+
     database.addSleepEntry(entry)
         .then(sleepdata => {
 
@@ -72,9 +74,9 @@ router.put("/:id", validateSleepEntry, (req, res) => {
         .then(sleepdata => {
 
             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+            { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " updated."}); }
             else
-                { res.status(200).json([]); }
+                { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can edit."}); }
         })
         .catch(error => {
             res.status(500).json({message: "Could not edit new sleep entry."})
@@ -91,9 +93,9 @@ router.delete("/:id", (req, res) => {
         .then(sleepdata => {
 
             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+                { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " deleted."}); }
             else
-                { res.status(200).json([]); }
+            { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can edit."}); }
         })
         .catch(error => {
             res.status(500).json({message: "Could not delete sleep entry with ID " + sleep_entry_id + "."})
