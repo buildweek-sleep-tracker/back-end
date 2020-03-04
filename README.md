@@ -215,7 +215,12 @@ none
     "rating_bedtime": 2,
     "notes_wakeup": "stayed up late to study for exam",
     "notes_day": "",
-    "notes_bedtime": ""
+    "notes_bedtime": "",
+    "rating_average": 3,              // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_hours": 7,             // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_extra_minutes": 54,    // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_total_minutes": 474    // not stored in DB; calculated automatically upon retrieval
+
   }
 ```
 > ### Status Codes and Messages
@@ -250,7 +255,12 @@ none
     "rating_bedtime": 2,
     "notes_wakeup": "stayed up late to study for exam",
     "notes_day": "",
-    "notes_bedtime": ""
+    "notes_bedtime": "",
+    "rating_average": 3,              // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_hours": 7,             // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_extra_minutes": 54,    // not stored in DB; calculated automatically upon retrieval
+    "sleeptime_total_minutes": 474    // not stored in DB; calculated automatically upon retrieval
+
   }
 ```
 > ### Status Codes and Messages
@@ -276,8 +286,8 @@ none
 
 ```
   {
-    "user_id": 1,   // required
-    "log_date": 1582554540090,  // required
+    "user_id": 1,                     // required
+    "log_date": 1582554540090,        // required
     "time_bedtime": 1582526100090,
     "time_wakeup": 1582554540090,
     "rating_wakeup": 4,
