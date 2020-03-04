@@ -7,6 +7,8 @@ const database = require("./sleepdata-model");
 const validateCanChangeProfile = require("./validateCanChangeProfile-middleware");
 const validateCanChangeEmail = require("./validateCanChangeEmail-middleware");
 
+const validateSleepEntry = require("./validateSleepEntry-middleware");
+
 // GET: get info from a user by user ID (stored in token)
 router.get("/profile", (req, res) => {
     
@@ -93,9 +95,10 @@ router.get("/sleepdata", (req, res) => {
 })
 
 // POST: adds a new sleep entry for the logged-in user
-router.post("/sleepdata", (req, res) => {
+router.post("/sleepdata", validateSleepEntry, (req, res) => {
     
-    const user_id = req.decodedToken.id;
+    // add current user id to request body
+    req.body.user_id = req.decodedToken.id;
     const entry = req.body;
 
     database.addSleepEntry(entry)
@@ -131,13 +134,13 @@ router.get("/sleepdata/:id", (req, res) => {
 })
 
 // PUT: edits an existing sleep entry for the logged-in user
-router.put("/sleepdata/:id", (req, res) => {
+router.put("/sleepdata/:id", validateSleepEntry, (req, res) => {
     
     const user_id = req.decodedToken.id;
     const sleep_entry_id = req.params.id;
     const entry = req.body;
 
-    database.editSleepEntry(user_id, entry, sleep_entry_id)
+    database.editSleepEntry(user_id, sleep_entry_id, entry)
         .then(sleepdata => {
 
             if (sleepdata)
@@ -146,7 +149,7 @@ router.put("/sleepdata/:id", (req, res) => {
                 { res.status(200).json([]); }
         })
         .catch(error => {
-            res.status(500).json({message: "Could not add new sleep entry."})
+            res.status(500).json({message: "Could not edit new sleep entry."})
         })    
 })
 

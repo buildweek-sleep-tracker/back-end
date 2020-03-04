@@ -35,6 +35,10 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 ## Sleep data routes
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
+|GET|/api/sleepdata|Retrieves all sleep entries of the user who is logged in|token|
+|POST|/api/sleepdata|Creates a new entry for the user who is logged in|token|
+|PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for  the user who is logged in|token|
+|DELETE|/api/sleepdata/:id|Deletes the sleep entry with the given ID for the user who is logged in|token|
 
 ## User profile routes
 |Method|Route|Description|Authorization|

@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
         { res.status(400).json({message: "Missing required sleep entry data."}) }
     else
         {
-            
+            next();
         }
 
 }
