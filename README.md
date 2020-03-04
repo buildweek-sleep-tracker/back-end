@@ -43,6 +43,7 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |GET|/api/sleepdata|Retrieves all sleep entries of the user who is logged in|token|
+|GET|/api/sleepdata/:id|Retrieves the sleep entry with the given ID. The entry must belong to the user who is logged in.|token|
 |POST|/api/sleepdata|Creates a new entry for the user who is logged in|token|
 |PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for the user who is logged in|token|
 |DELETE|/api/sleepdata/:id|Deletes the sleep entry with the given ID for the user who is logged in|token|
@@ -301,8 +302,44 @@ none
 > ### Status Codes and Messages
 
 |Status|Type|Description|Message|Return Value
-|201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
-500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
+|------|----|-----------|-------|------------|
+|200|Success|Retrieved sleep entry.|none|```[{ sleep entry 1}, {sleep entry 2}, ... ] OR []```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
+
+## **GET: /api/sleepdata/:id**
+
+### Retrieves the sleep entry with the given ID. The entry must belong to the user who is logged in.
+
+> ### Auth Required to Access:
+```
+{
+    Authorization: { token: (token) }
+}
+```
+
+> ### Sleep Entry Format
+
+```
+  {
+    "id": 1,
+    "user_id": 1,
+    "log_date": 1582554540090,
+    "time_bedtime": 1582526100090,
+    "time_wakeup": 1582554540090,
+    "rating_wakeup": 4,
+    "rating_day": 3,
+    "rating_bedtime": 2,
+    "notes_wakeup": "stayed up late to study for exam",
+    "notes_day": "",
+    "notes_bedtime": ""
+  }
+```
+> ### Status Codes and Messages
+
+|Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
+|200|Success|Retrieved sleep entry.|none|```{ sleep entry } OR []```
+500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
 
 ## **POST: /api/sleepdata**
 
@@ -336,9 +373,10 @@ none
 > ### Status Codes and Messages
 
 |Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
 |201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
-|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
-|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
+|400|Error|Missing sleep entry data|Missing required sleep entry data.|```{message: "Missing required sleep entry data."}```
+|400|Error|Missing log_date property|Missing required log_date property.|```{message: "Missing required log_date property."}```
 500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
 
 ## **PUT: /api/sleepdata/:id**
@@ -353,12 +391,13 @@ none
 ```
 
 > ### Status Codes and Messages
-|Status|Type|Description|Message|Return Value
-|200|Success|Edited sleep entry.|Sleep entry #(id) updated|```{message: "Sleep entry #(id) updated."}```|none
-|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
-|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
-|403|Success|Could not edit sleep entry.|Sleep entry #(id) is not an entry you can edit.|```{message: "Sleep entry #(id) entry you can edit."}```|none
-500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```
+|Status|Type|Description|Message|Return Value|
+|------|----|-----------|-------|------------|
+|200|Success|Edited sleep entry.|Sleep entry #(id) updated|```{message: "Sleep entry #(id) updated."}```|none|
+|400|Error|Missing sleep entry data|Missing required sleep entry data.|```{message: "Missing required sleep entry data."}```|
+|400|Error|Missing log_date property|Missing required log_date property.|```{message: "Missing required log_date property."}```|
+|403|Success|Could not edit sleep entry.|Sleep entry #(id) is not an entry you can edit.|```{message: "Sleep entry #(id) entry you can edit."}```|none|
+500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```|
 
 ## **DELETE: /api/sleepdata**
 
@@ -380,6 +419,7 @@ none
 
 > ### Status Codes and Messages
 |Status|Type|Description|Message|Return Value
+|------|----|-----------|-------|------------|
 |200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
 |403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
 500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```
