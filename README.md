@@ -263,7 +263,7 @@ none
 
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|2000|Success|Fetched user data.|none|```{sleep entry}```
+|200|Success|Fetched user data.|none|```{sleep entry}```
 404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
@@ -301,10 +301,8 @@ none
 > ### Status Codes and Messages
 
 |Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
-
+|201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
+500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
 
 ## **POST: /api/sleepdata**
 
@@ -338,8 +336,10 @@ none
 > ### Status Codes and Messages
 
 |Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
+|201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
+|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
+|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
+500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
 
 ## **PUT: /api/sleepdata/:id**
 
@@ -353,10 +353,12 @@ none
 ```
 
 > ### Status Codes and Messages
-
 |Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
+|200|Success|Edited sleep entry.|Sleep entry #(id) updated|```{message: "Sleep entry #(id) updated."}```|none
+|400|Error|Missing sleep entry data|```{message: "Missing required sleep entry data."}```|none
+|400|Error|Missing log_date property|```{message: "Missing required log_date property."}```|none
+|403|Success|Could not edit sleep entry.|Sleep entry #(id) is not an entry you can edit.|```{message: "Sleep entry #(id) entry you can edit."}```|none
+500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```
 
 ## **DELETE: /api/sleepdata**
 
@@ -373,12 +375,11 @@ none
 > ### Input
 
 ```
-TBD
+none
 ```
 
 > ### Status Codes and Messages
-
 |Status|Type|Description|Message|Return Value
-|------|----|-----------|-------|------------|
-|------|----|-----------|-------|------------|
-
+|200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
+|403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
+500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```

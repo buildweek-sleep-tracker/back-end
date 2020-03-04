@@ -4,7 +4,7 @@ const database = require("./sleepdata-model");
 
 const validateSleepEntry = require("./validateSleepEntry-middleware");
 
-// GET: get all sleep data from a user by user ID (stored in token)
+// GET: get all sleep entries for the logged-in user
 router.get("/", (req, res) => {
     
     const id = req.decodedToken.id;
@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
                 { res.status(200).json([]); }
         })
         .catch(error => {
-            res.status(404).json({message: "Could not get sleep data for user ID " + id + "."})
+            res.status(404).json({message: "Could not get sleep data."})
         })    
 })
 
@@ -29,13 +29,11 @@ router.post("/", validateSleepEntry, (req, res) => {
     req.body.user_id = req.decodedToken.id;
     const entry = req.body;
 
-    console.log("about to add", entry);
-
     database.addSleepEntry(entry)
         .then(sleepdata => {
 
             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+                { res.status(201).json(sleepdata); }
             else
                 { res.status(200).json([]); }
         })
@@ -74,12 +72,12 @@ router.put("/:id", validateSleepEntry, (req, res) => {
         .then(sleepdata => {
 
             if (sleepdata)
-            { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " updated."}); }
+                { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " updated."}); }
             else
                 { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can edit."}); }
         })
         .catch(error => {
-            res.status(500).json({message: "Could not edit new sleep entry."})
+            res.status(500).json({message: "Could not edit sleep entry."})
         })    
 })
 
@@ -95,7 +93,7 @@ router.delete("/:id", (req, res) => {
             if (sleepdata)
                 { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " deleted."}); }
             else
-            { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can edit."}); }
+            { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can delete."}); }
         })
         .catch(error => {
             res.status(500).json({message: "Could not delete sleep entry with ID " + sleep_entry_id + "."})
