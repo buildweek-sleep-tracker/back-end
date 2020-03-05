@@ -22,7 +22,7 @@ function generateSeedSleepEntries() {
 
       for (let daysBeforeCurrentDate = entriesToGenerate; daysBeforeCurrentDate > 0; daysBeforeCurrentDate--)
       {
-          sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date(currentDate)));
+          sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date(currentDate), 0));
       }
     }
   

@@ -76,7 +76,7 @@ router.get("/sleepdata/generate", (req, res) => {
 
     else if (req.query.entries && req.query.entries > 10000)
         { res.status(400).json({message: "Too many sleep entries requested."}) }
-        
+
     else
         {
             let entriesToGenerate = req.query.entries || 1;
@@ -86,7 +86,7 @@ router.get("/sleepdata/generate", (req, res) => {
 
             for (let daysBeforeCurrentDate = entriesToGenerate; daysBeforeCurrentDate > 0; daysBeforeCurrentDate--)
                 {
-                    sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date()));
+                    sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date(), 1));
                 }
             res.status(200).json(sleepEntries);
         }

@@ -11,7 +11,7 @@ module.exports = (user) => {
     }
 
     const options = {
-        expiresIn: "3h"
+        expiresIn: "24h"
     }
 
     return jwt.sign(payload, jwtSecret, options);
