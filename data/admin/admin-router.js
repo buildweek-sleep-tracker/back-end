@@ -39,19 +39,29 @@ router.get("/users/:id/sleepdata", (req, res) => {
     
     const id = req.params.id;
 
-    database.getSleepDataByUserID(id)
-        .then(sleepdata => {
 
-             // if user found, return user's sleep data. Otherwise, return an error message.
-             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+    database.getUserByID(id)
+        .then(users => {
 
+            // if user found, return user data. Otherwise, return an error message.
+            if (users)
+                {
+                    database.getSleepDataByUserID(id)
+                    .then(sleepdata => {
+
+                        res.status(200).json(sleepdata)
+                        
+                    })
+                    .catch(error => {
+                        res.status(404).json({message: "Could not retrieve sleep data for user with id " + id + "."})
+                    })    
+                }
             else
                 { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
         })
         .catch(error => {
-            res.status(404).json({message: "Could not find a user with id " + id + "."})
-        })    
+            { res.status(404).json({message: "Could not find a user with id " + id + "."}) }
+        })
 })
 
 
