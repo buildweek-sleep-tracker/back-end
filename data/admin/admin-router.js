@@ -76,7 +76,7 @@ router.get("/sleepdata/generate", (req, res) => {
 
     else if (req.query.entries && req.query.entries > 10000)
         { res.status(400).json({message: "Too many sleep entries requested."}) }
-        
+
     else
         {
             let entriesToGenerate = req.query.entries || 1;

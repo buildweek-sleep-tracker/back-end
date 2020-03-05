@@ -25,7 +25,7 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 
 # API Specifications: Summary of All Routes
 
-## Login and Registration routes
+## Login and registration routes
 
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
@@ -48,7 +48,7 @@ Not everyone needs 8 hours of sleep, but how do you know if you’re someone luc
 |PUT|/api/sleepdata/:id|Edits the sleep entry with the given ID for the user who is logged in|token|
 |DELETE|/api/sleepdata/:id|Deletes the sleep entry with the given ID for the user who is logged in|token|
 
-## Admin routes
+## Admin routes (for debugging use only)
 |Method|Route|Description|Authorization|
 |------|-----|-----------|-------------|
 |GET|/api/admin/users|Retrieves all user profiles in the database|none|
@@ -388,7 +388,7 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |200|Success|Fetched user data.|none|```{user}```
-404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+404|Error|Invalid user ID.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
 > ### User info Format
@@ -415,8 +415,8 @@ none
 
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|200|Success|Fetched user data.|none|```{sleep entry}```
-404|Error|Server error.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
+|200|Success|Fetched user data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
+404|Error|Invalid user ID.|"Could not get users."|```{message: "Could not find a user with ID (id)."}```
 
 
 ## **GET: /api/admin/sleepdata**
@@ -464,8 +464,8 @@ These entries **are not added to the database**. The purpose of this endpoint is
 > ### Examples:
 ```
 /api/admin/sleepdata/generate?entries=5&user_id=3       // generates 5 entries for user #3
-/api/admin/sleepdata/generate?user_id=10                // generates 1 entries for user #10
-/api/admin/sleepdata/generate?entries=1000&user_id=7       // generates 1000 entries for user #7
+/api/admin/sleepdata/generate?user_id=10                // generates 1 entrie for user #10
+/api/admin/sleepdata/generate?entries=1000&user_id=7    // generates 1000 entries for user #7
 ```
 
 > ### Output format
@@ -497,5 +497,5 @@ none
 |------|----|-----------|-------|------------|
 |200|Success|Generated sleep data.|none|```[{sleep entry 1}, {sleep entry 2}, ...]```
 400|Error|Missing user_id query in URL.|"Required user_id missing."|```{message: "Required user_id missing."}```
-400|Error|`entries` value too big (10,000 or larger).|"Too many sleep entries requested."|```{message: "Too many sleep entries requested."}```
+400|Error|`entries` value too big (more than 10,000).|"Too many sleep entries requested."|```{message: "Too many sleep entries requested."}```
 500|Error|Server error.|"Could not get sleep data."|```{message: "Could not get sleep data.", (error)}```
