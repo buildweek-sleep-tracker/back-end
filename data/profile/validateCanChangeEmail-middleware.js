@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
 
                     // email address is in use by another user
                     else
-                        { res.status(400).json({message: "Email address already in use."}) }
+                        { res.status(403).json({message: "Email address already in use."}) }
                 })
                 .catch(error => {
                     res.status(500).json({message: "Server error in validating credentials.", error})
