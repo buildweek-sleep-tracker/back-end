@@ -151,8 +151,8 @@ none
 |200|Success|Profile updated.|"Profile updated.|```{message: "Profile updated..}```
 |200|Success|No new info added.|"No changes were made to your profile".|```{message: "No changes were made to your profile".}```
 |400|Error|Current password not specified.|"You must enter your old password to make any changes to your profile".|```{message: "You must enter your old password to make any changes to your profile."}```
-|401|Error|Current password not specified.|"Password incorrect. Could not update profile".|```{message: "Password incorrect. Could not update profile."}```
-|400|Error|Email address already used by another user.|"Email address already in use".|```{message: "Email address already in use."}```
+|401|Error|Current password incorrect.|"Password incorrect. Could not update profile".|```{message: "Password incorrect. Could not update profile."}```
+|403|Error|Email address already used by another user.|"Email address already in use".|```{message: "Email address already in use."}```
 500|Error|Server error.|"Server error in validating credentials."|```{message: "Server error in validating credentials.", (error)}```
 500|Error|Server error.|"Server error in updating profile."|```{message: "Server error in updating profile.", (error)}```
 

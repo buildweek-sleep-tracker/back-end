@@ -12,10 +12,10 @@ describe("Profile router", () => {
 
 // test GET /api/profile
 
-let email = Date.now();
-let password = email + "pass";
+xdescribe("GET /api/api/profile", () => {
 
-describe("GET /api/api/profile", () => {
+    let email = Date.now();
+    let password = email + "pass";
 
     test("should return a 200 status code", () => {
             
@@ -57,40 +57,163 @@ describe("GET /api/api/profile", () => {
 })
 
 // test PUT /api/profile
-describe("PUT /api/api/profile", () => {
+xdescribe("PUT /api/api/profile", () => {
 
-    test("should return a 200 status code on successful update", () => {
+    test("should return a 200 status code when no changes are made to the profile", () => {
         
-        let newProfile = {
-            oldPassword: password
-        }
+        let email = Date.now();
+        let password = email + "pass";
 
-        // log in; then try to edit user profile using token
+        // create an account; then try to edit user profile using token
         return request(server)
-            .post("/api/auth/login")
+            .post("/api/auth/register")
             .send({email, password})
             .then(response => {
 
                 let token = response.body.token;
 
-                return  request(server)
+                let newProfile = {
+                    currentPassword: password
+                }
+        
+                return request(server)
                 .put("/api/profile")
                 .set({Authorization: token})
                 .send(newProfile)
                     .then(response => {
 
-                        console.log(response.body, "was the update", response.status);
+                        expect(response.status).toBe(200);
+                    })
+            })
+    })
+
+    test("should return a 200 status code on a successful update", () => {
+        
+        let email = Date.now();
+        let password = email + "pass";
+
+        // create an account; then try to edit user profile using token
+        return request(server)
+            .post("/api/auth/register")
+            .send({email, password})
+            .then(response => {
+
+                let token = response.body.token;
+                let firstName = "new first name"
+
+                let newProfile = {
+                    currentPassword: password,
+                    newFirstName: firstName
+                }
+        
+                return request(server)
+                .put("/api/profile")
+                .set({Authorization: token})
+                .send(newProfile)
+                    .then(response => {
 
                         expect(response.status).toBe(200);
                     })
-                    // .catch(error => Error(error))
             })
-            // .catch(error => Error(error))
+    })
+
+    test("should return a 400 status code if password is missing", () => {
+        
+        let email = Date.now();
+        let password = email + "pass";
+
+        // create an account; then try to edit user profile using token
+        return request(server)
+            .post("/api/auth/register")
+            .send({email, password})
+            .then(response => {
+
+                let token = response.body.token;
+                let firstName = "new first name"
+
+                let newProfile = {
+                    newFirstName: firstName
+                }
+        
+                return request(server)
+                .put("/api/profile")
+                .set({Authorization: token})
+                .send(newProfile)
+                    .then(response => {
+
+                        expect(response.status).toBe(400);
+                    })
+            })
+    })
+
+    test("should return a 401 status code if password is incorrect", () => {
+        
+        let email = Date.now();
+        let password = email + "pass";
+
+        // create an account; then try to edit user profile using token
+        return request(server)
+            .post("/api/auth/register")
+            .send({email, password})
+            .then(response => {
+
+                let token = response.body.token;
+                let firstName = "new first name"
+
+                let newProfile = {
+                    newFirstName: firstName,
+                    currentPassword: "incorrect password"
+                }
+        
+                return request(server)
+                .put("/api/profile")
+                .set({Authorization: token})
+                .send(newProfile)
+                    .then(response => {
+
+                        expect(response.status).toBe(401);
+                    })
+            })
+    })
+
+    test("should return a 403 status code if email address is already in use", () => {
+        
+        let email = Date.now();
+        let password = email + "pass";
+        
+        // create an account to reserve an email address
+        return request(server)
+            .post("/api/auth/register")
+            .send({email: email + "reserved", password})
+            .then(response => {
+
+                // create a second account; then try to change email to the reserved email
+                return request(server)
+                    .post("/api/auth/register")
+                    .send({email, password})
+                    .then(response => {
+
+                        let token = response.body.token;
+
+                        let newProfile = {
+                            currentPassword: password,
+                            newEmail: email + "reserved"
+                        }
+                
+                        return request(server)
+                        .put("/api/profile")
+                        .set({Authorization: token})
+                        .send(newProfile)
+                            .then(response => {
+                                expect(response.status).toBe(403);
+                            })
+                    })
+            })
     })
 })
 
 // test DELETE /api/profile
-describe("DELETE /api/api/profile", () => {
+xdescribe("DELETE /api/api/profile", () => {
 
     test("should return a 200 status code on successful delete", () => {
         
