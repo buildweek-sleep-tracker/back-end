@@ -86,7 +86,7 @@ router.get("/sleepdata/generate", (req, res) => {
 
             for (let daysBeforeCurrentDate = entriesToGenerate; daysBeforeCurrentDate > 0; daysBeforeCurrentDate--)
                 {
-                    sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date()));
+                    sleepEntries.push(sleepDataHelpers.generateSleepEntry(user_id, daysBeforeCurrentDate, new Date(), 1));
                 }
             res.status(200).json(sleepEntries);
         }

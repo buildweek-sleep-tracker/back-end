@@ -13,7 +13,7 @@ module.exports = {
     generateOneInNChance
 }
 
-function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
+function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate, addComputedValues) {
 
     const [time_bedtime, time_wakeup] = generateBedtimeAndWaketime(daysBeforeCurrentDate, currentDate);
     const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_wakeup);
@@ -21,6 +21,21 @@ function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate) {
     const [rating_wakeup, rating_day, rating_bedtime] = generateAllThreeRatings(total_minutes_slept);
 
     const log_date = time_wakeup;
+
+    // determine whether to add rating_average, sleeptime_hours, sleeptime_extra_minutes, and sleeptime_total_minutes
+    // these four are NOT added when generating seed data
+    // these four are added when generating data via the /generate endpoint.
+    if (addComputedValues)
+        {
+            // use floor() instead of round() to be consistent with SQL's rounding down
+            let rating_average = Math.floor((rating_wakeup + rating_day + rating_bedtime) / 3 * 100) / 100;
+
+            let sleeptime_hours = Math.floor(total_minutes_slept / 60);
+            let sleeptime_extra_minutes = total_minutes_slept - sleeptime_hours * 60;
+            let sleeptime_total_minutes = total_minutes_slept;
+
+            return { user_id, log_date, time_bedtime, time_wakeup, rating_wakeup, rating_day, rating_bedtime, rating_average, sleeptime_hours, sleeptime_extra_minutes, sleeptime_total_minutes};
+        }
 
     return { user_id, log_date, time_bedtime, time_wakeup, rating_wakeup, rating_day, rating_bedtime};
 }
