@@ -12,12 +12,21 @@ describe("Profile router", () => {
 
 // test GET /api/profile
 
-xdescribe("GET /api/api/profile", () => {
+describe("GET /api/api/profile", () => {
 
     let email = Date.now();
     let password = email + "pass";
 
-    test("should return a 200 status code", () => {
+    test("should return a 401 status code if not logged in", () => {
+        
+        return request(server)
+            .get("/api/profile")
+                .then(response => {
+                    expect(response.status).toBe(401);
+                })
+    })
+
+    test("should return a 200 status code if logged in", () => {
             
         // create an account; then try to view user profile using token
         return request(server)
@@ -57,7 +66,16 @@ xdescribe("GET /api/api/profile", () => {
 })
 
 // test PUT /api/profile
-xdescribe("PUT /api/api/profile", () => {
+describe("PUT /api/api/profile", () => {
+
+    test("should return a 401 status code if not logged in", () => {
+        
+        return request(server)
+            .get("/api/profile")
+                .then(response => {
+                    expect(response.status).toBe(401);
+                })
+    })
 
     test("should return a 200 status code when no changes are made to the profile", () => {
         
@@ -213,7 +231,16 @@ xdescribe("PUT /api/api/profile", () => {
 })
 
 // test DELETE /api/profile
-xdescribe("DELETE /api/api/profile", () => {
+describe("DELETE /api/api/profile", () => {
+
+    test("should return a 401 status code if not logged in", () => {
+        
+        return request(server)
+            .get("/api/profile")
+                .then(response => {
+                    expect(response.status).toBe(401);
+                })
+    })
 
     test("should return a 200 status code on successful delete", () => {
         
