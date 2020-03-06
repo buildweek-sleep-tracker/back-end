@@ -40,7 +40,7 @@ function getSleepEntry(user_id, sleep_entry_id) {
 function addSleepEntry(entry) {
 
     return database("sleep_data")
-        .insert(entry)
+        .insert(entry, "id")
 }
 
 function editSleepEntry(user_id, sleep_entry_id, entry) {
