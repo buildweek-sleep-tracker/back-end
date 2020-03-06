@@ -8,7 +8,7 @@ module.exports = {
 function addUser(user) {
 
     return database("users")
-        .insert(user);
+        .insert(user, "id");
 }
 
 function getUserBy(query) {
