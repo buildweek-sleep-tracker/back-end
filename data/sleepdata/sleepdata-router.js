@@ -3,6 +3,7 @@ const router = require("express").Router();
 const database = require("./sleepdata-model");
 
 const validateSleepEntry = require("./validateSleepEntry-middleware");
+const sleepDataHelpers = require("../utils/sleepDataHelpers");
 
 // GET: get all sleep entries for the logged-in user
 router.get("/", (req, res) => {
@@ -13,11 +14,23 @@ router.get("/", (req, res) => {
         .then(sleepdata => {
 
             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+                {
+                    // add hours and minutes slept for each entry
+                    const updatedSleepData = sleepdata.map(entry => {
+        
+                        let { time_bedtime, time_wakeup } = entry;
+                        let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
+                        
+                        return {...entry, ...calculatedValues};
+                    })
+
+                    res.status(200).json(updatedSleepData);
+                }
             else
                 { res.status(200).json([]); }
         })
         .catch(error => {
+
             res.status(404).json({message: "Could not get sleep data."})
         })    
 })
@@ -52,7 +65,16 @@ router.get("/:id", (req, res) => {
         .then(sleepdata => {
 
             if (sleepdata.length > 0)
-                { res.status(200).json(sleepdata[0]); }
+                {     
+                    sleepdata = sleepdata[0];
+                    
+                    let { time_bedtime, time_wakeup } = sleepdata;
+                    let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
+                        
+                    const updatedSleepData = {...sleepdata, ...calculatedValues};
+
+                    res.status(200).json(updatedSleepData);
+                }
             else
                 { res.status(404).json({message: "Could not get sleep entry with id " + sleep_entry_id + "."}); }
         })
