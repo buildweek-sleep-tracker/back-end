@@ -49,8 +49,16 @@ router.get("/users/:id/sleepdata", (req, res) => {
                     database.getSleepDataByUserID(id)
                     .then(sleepdata => {
 
-                        res.status(200).json(sleepdata)
-                        
+                        // add hours and minutes slept for each entry
+                        const updatedSleepData = sleepdata.map(entry => {
+            
+                            let { time_bedtime, time_wakeup } = entry;
+                            let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
+                            
+                            return {...entry, ...calculatedValues};
+                        })
+
+                        res.status(200).json(updatedSleepData);
                     })
                     .catch(error => {
                         res.status(404).json({message: "Could not retrieve sleep data for user with id " + id + "."})
@@ -70,7 +78,17 @@ router.get("/sleepdata", (req, res) => {
     
     database.getAllSleepData()
         .then(sleepdata => {
-            res.status(200).json(sleepdata);
+
+            // add hours and minutes slept for each entry
+            const updatedSleepData = sleepdata.map(entry => {
+  
+                let { time_bedtime, time_wakeup } = entry;
+                let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
+                
+                return {...entry, ...calculatedValues};
+            })
+
+            res.status(200).json(updatedSleepData);
         })
         .catch(error => {
             res.status(500).json({message: "Could not get sleep data.", error})
@@ -111,7 +129,14 @@ router.get("/sleepdata/:id", (req, res) => {
     database.getSleepDataByID(id)
         .then(sleepdata => {
             if (sleepdata)
-                { res.status(200).json(sleepdata); }
+                {     
+                    let { time_bedtime, time_wakeup } = sleepdata;
+                    let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
+                        
+                    const updatedSleepData = {...sleepdata, ...calculatedValues};
+
+                    res.status(200).json(updatedSleepData);
+                }
             else
                 { res.status(404).json({message: "Could not find a sleep entry with id " + id + "."}) }
         })

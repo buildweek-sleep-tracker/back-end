@@ -10,7 +10,8 @@ module.exports = {
     generateRatingGuess,
     generateRatingGuess,
     generateAllThreeRatings,
-    generateOneInNChance
+    generateOneInNChance,
+    calculateHoursAndMinutes
 }
 
 function generateSleepEntry(user_id, daysBeforeCurrentDate, currentDate, addComputedValues) {
@@ -210,4 +211,16 @@ function generateOneInNChance(n)
     {
         let randomNumber = Math.floor(Math.random() * n);
         return randomNumber === 0;
+    }
+
+// calculate hours and minutes for sleeptime, given bedtime and waketime
+function calculateHoursAndMinutes(time_bedtime, time_wakeup)
+    {
+        const total_minutes_slept = getTotalMinutesSlept(time_bedtime, time_wakeup);
+
+        let sleeptime_hours = Math.floor(total_minutes_slept / 60);
+        let sleeptime_extra_minutes = total_minutes_slept - sleeptime_hours * 60;
+        let sleeptime_total_minutes = total_minutes_slept;
+
+        return {sleeptime_hours, sleeptime_extra_minutes, sleeptime_total_minutes};
     }

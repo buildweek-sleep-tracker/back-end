@@ -24,12 +24,12 @@ function getAllSleepData() {
 
     return database("sleep_data")        
         .select("*")
-        .select(database.raw(
-            queryHelpers.rating_average + ", " +
-            queryHelpers.sleeptime_hours + ", " +
-            queryHelpers.sleeptime_extra_minutes + ", " +
-            queryHelpers.sleeptime_total_minutes
-        ))
+        // .select(database.raw(queryHelpers.rating_average
+            // queryHelpers.rating_average + ", " +
+            // queryHelpers.sleeptime_hours + ", " +            // removed due to Postgres issues
+            // queryHelpers.sleeptime_extra_minutes + ", " +
+            // queryHelpers.sleeptime_total_minutes
+        // ))
 }
 
 
@@ -37,11 +37,11 @@ function getSleepDataByID(sleep_entry_id) {
 
     return database("sleep_data")
         .select("*")
-        .select(database.raw(
-            queryHelpers.rating_average + ", " +
-            queryHelpers.sleeptime_hours + ", " +
-            queryHelpers.sleeptime_extra_minutes + ", " +
-            queryHelpers.sleeptime_total_minutes
+        .select(database.raw(queryHelpers.rating_average
+            // queryHelpers.rating_average + ", " +
+            // queryHelpers.sleeptime_hours + ", " +            // removed due to Postgres issues
+            // queryHelpers.sleeptime_extra_minutes + ", " +
+            // queryHelpers.sleeptime_total_minutes
         ))
         .where({id: sleep_entry_id})
         .first()
