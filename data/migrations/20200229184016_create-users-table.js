@@ -10,7 +10,7 @@ exports.up = function(knex) {
         .unique()
         .index()
 
-    table.string("password", 32)
+    table.string("password", 64)
         .notNullable()
 
     table.string("first_name", 32)
