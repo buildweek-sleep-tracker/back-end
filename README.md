@@ -155,6 +155,7 @@ none
 |401|Error|Current password incorrect.|"Password incorrect. Could not update profile".|```{message: "Password incorrect. Could not update profile."}```
 |401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
 |403|Error|Email address already used by another user.|"Email address already in use".|```{message: "Email address already in use."}```
+|404|Error|Cannot find user (account deleted)|"Cannot find user profile."|```{message: "Cannot find user profile."}```
 500|Error|Server error.|"Server error in validating credentials."|```{message: "Server error in validating credentials.", (error)}```
 500|Error|Server error.|"Server error in updating profile."|```{message: "Server error in updating profile.", (error)}```
 

@@ -45,12 +45,17 @@ router.post("/", validateSleepEntry, (req, res) => {
     database.addSleepEntry(entry)
         .then(sleepdata => {
 
+            console.log("results of adding new entry...", sleepdata);
+
             if (sleepdata.length > 0)
                 { res.status(201).json(sleepdata[0]); }
             else
                 { res.status(500).json({message: "Could not add new sleep entry."}) }
         })
         .catch(error => {
+
+            console.log("500 error...", error);
+
             res.status(500).json({message: "Could not add new sleep entry."})
         })    
 })
@@ -67,7 +72,7 @@ router.get("/:id", (req, res) => {
             if (sleepdata.length > 0)
                 {     
                     sleepdata = sleepdata[0];
-                    
+
                     let { time_bedtime, time_wakeup } = sleepdata;
                     let calculatedValues = sleepDataHelpers.calculateHoursAndMinutes(time_bedtime, time_wakeup);
                         

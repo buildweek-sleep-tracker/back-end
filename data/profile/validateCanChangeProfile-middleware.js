@@ -12,8 +12,12 @@ module.exports = (req, res, next) => {
             database.getUserByID(req.decodedToken.id)
                 .then(existingUser => {
                     
+                    // verify that the user has not been deleted
+                    if (!existingUser)
+                        { res.status(404).json({message: "Cannot find user profile."}); }
+
                     // password is incorrect; stop updating
-                    if (!bcrypt.compareSync(req.body.currentPassword, existingUser.password))
+                    else if (!bcrypt.compareSync(req.body.currentPassword, existingUser.password))
                         { res.status(401).json({message: "Password incorrect. Could not update profile."}); }
 
                     else
