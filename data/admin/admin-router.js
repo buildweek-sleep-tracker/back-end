@@ -90,7 +90,7 @@ router.get("/sleepdata/generate", (req, res) => {
     else
         {
             let entriesToGenerate = req.query.entries || 1;
-            let user_id = req.query.user_id;
+            let user_id = parseInt(req.query.user_id);
 
             let sleepEntries = [];
 
