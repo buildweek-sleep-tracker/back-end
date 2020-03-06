@@ -24,12 +24,12 @@ function getAllSleepData() {
 
     return database("sleep_data")        
         .select("*")
-        // .select(database.raw(queryHelpers.rating_average
+        .select(database.raw(queryHelpers.rating_average
             // queryHelpers.rating_average + ", " +
             // queryHelpers.sleeptime_hours + ", " +            // removed due to Postgres issues
             // queryHelpers.sleeptime_extra_minutes + ", " +
             // queryHelpers.sleeptime_total_minutes
-        // ))
+        ))
 }
 
 
