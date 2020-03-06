@@ -32,10 +32,10 @@ router.post("/", validateSleepEntry, (req, res) => {
     database.addSleepEntry(entry)
         .then(sleepdata => {
 
-            if (sleepdata)
-                { res.status(201).json(sleepdata); }
+            if (sleepdata.length > 0)
+                { res.status(201).json(sleepdata[0]); }
             else
-                { res.status(200).json([]); }
+                { res.status(500).json({message: "Could not add new sleep entry."}) }
         })
         .catch(error => {
             res.status(500).json({message: "Could not add new sleep entry."})
@@ -51,10 +51,10 @@ router.get("/:id", (req, res) => {
     database.getSleepEntry(user_id, sleep_entry_id)
         .then(sleepdata => {
 
-            if (sleepdata)
-                { res.status(200).json(sleepdata); }
+            if (sleepdata.length > 0)
+                { res.status(200).json(sleepdata[0]); }
             else
-                { res.status(200).json([]); }
+                { res.status(404).json({message: "Could not get sleep entry with id " + sleep_entry_id + "."}); }
         })
         .catch(error => {
             res.status(404).json({message: "Could not get sleep entry with id " + sleep_entry_id + "."})
@@ -93,7 +93,7 @@ router.delete("/:id", (req, res) => {
             if (sleepdata)
                 { res.status(200).json({message: "Sleep entry #" + sleep_entry_id + " deleted."}); }
             else
-            { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can delete."}); }
+                { res.status(403).json({message: "Sleep entry #" + sleep_entry_id + " is not an entry you can delete."}); }
         })
         .catch(error => {
             res.status(500).json({message: "Could not delete sleep entry with ID " + sleep_entry_id + "."})

@@ -130,7 +130,8 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |200|Success|Profile found.|none|```{user profile}```
-404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
 
 
 ## **PUT: /api/profile**
@@ -152,6 +153,7 @@ none
 |200|Success|No new info added.|"No changes were made to your profile".|```{message: "No changes were made to your profile".}```
 |400|Error|Current password not specified.|"You must enter your old password to make any changes to your profile".|```{message: "You must enter your old password to make any changes to your profile."}```
 |401|Error|Current password incorrect.|"Password incorrect. Could not update profile".|```{message: "Password incorrect. Could not update profile."}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
 |403|Error|Email address already used by another user.|"Email address already in use".|```{message: "Email address already in use."}```
 500|Error|Server error.|"Server error in validating credentials."|```{message: "Server error in validating credentials.", (error)}```
 500|Error|Server error.|"Server error in updating profile."|```{message: "Server error in updating profile.", (error)}```
@@ -185,7 +187,8 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |200|Success|Profile found.|none|```{user profile}```
-404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|404|Error|Server error.|"Could not find a user with id (id)."|```{message: "Could not find a user with id (id).", (error)}```
 
 
 # API Specifications: Sleep Data
@@ -229,7 +232,8 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |200|Success|Retrieved sleep entry.|none|```[{ sleep entry 1}, {sleep entry 2}, ... ] OR []```
-500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
 
 ## **GET: /api/sleepdata/:id**
 
@@ -269,7 +273,9 @@ none
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
 |200|Success|Retrieved sleep entry.|none|```{ sleep entry } OR []```
-500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|404|Error|Invalid sleep entry ID|"Could not get sleep entry with id (id)."|```message: "Could not get sleep entry with id (id)."```
+|500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
 
 ## **POST: /api/sleepdata**
 
@@ -307,7 +313,8 @@ none
 |201|Success|Added new sleep entry.|none|```(id of added sleep entry)```
 |400|Error|Missing sleep entry data|Missing required sleep entry data.|```{message: "Missing required sleep entry data."}```
 |400|Error|Missing log_date property|Missing required log_date property.|```{message: "Missing required log_date property."}```
-500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|500|Error|Server error.|"Could not add new sleep entry."|```{message: "Could not add new sleep entry.", (error)}```
 
 ## **PUT: /api/sleepdata/:id**
 
@@ -326,8 +333,9 @@ none
 |200|Success|Edited sleep entry.|Sleep entry #(id) updated|```{message: "Sleep entry #(id) updated."}```|none|
 |400|Error|Missing sleep entry data|Missing required sleep entry data.|```{message: "Missing required sleep entry data."}```|
 |400|Error|Missing log_date property|Missing required log_date property.|```{message: "Missing required log_date property."}```|
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
 |403|Success|Could not edit sleep entry.|Sleep entry #(id) is not an entry you can edit.|```{message: "Sleep entry #(id) entry you can edit."}```|none|
-500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```|
+|500|Error|Server error.|"Could not edit sleep entry."|```{message: "Could not edit sleep entry.", (error)}```|
 
 ## **DELETE: /api/sleepdata**
 
@@ -350,9 +358,10 @@ none
 > ### Status Codes and Messages
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
+|200|Success|Deleted sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
+|401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
 |403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
-500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```
+|500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```
 
 
 # API Specifications: Admin View (for debugging use only)

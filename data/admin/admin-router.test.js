@@ -1,18 +1,16 @@
-/* istanbul ignore file */
-
 const request = require("supertest");
 
 const server = require("../../server");
 const database = require("../db-config");
 
-xdescribe("Admin router", () => {
+describe("Admin router", () => {
     test("tests run", () => {
         expect(true).toBeTruthy();
     })
 })
 
 // test GET /api/admin/users
-xdescribe("GET /api/admin/users", () => {
+describe("GET /api/admin/users", () => {
 
     test(`should return a 200 status code`, () => {
         return request(server)
@@ -32,7 +30,7 @@ xdescribe("GET /api/admin/users", () => {
 })
 
 // test GET /api/admin/users/:id
-xdescribe("GET /api/admin/users/:id", () => {
+describe("GET /api/admin/users/:id", () => {
 
     let id = 1;
 
@@ -57,7 +55,7 @@ xdescribe("GET /api/admin/users/:id", () => {
 })
 
 // test GET /api/admin/users/:id/sleepdata
-xdescribe("GET /api/admin/users/:id/sleepdata", () => {
+describe("GET /api/admin/users/:id/sleepdata", () => {
 
     let id = 1;
 
@@ -91,7 +89,7 @@ xdescribe("GET /api/admin/users/:id/sleepdata", () => {
 })
 
 // test GET /api/admin/sleepdata
-xdescribe("GET /api/admin/sleepdata", () => {
+describe("GET /api/admin/sleepdata", () => {
 
     test(`should return a 200 status code`, () => {
         return request(server)
@@ -111,7 +109,7 @@ xdescribe("GET /api/admin/sleepdata", () => {
 })
 
 // test GET /api/admin/sleepdata/:id
-xdescribe("GET /api/admin/sleepdata/:id", () => {
+describe("GET /api/admin/sleepdata/:id", () => {
 
     let id = 1;
 
@@ -136,7 +134,7 @@ xdescribe("GET /api/admin/sleepdata/:id", () => {
 })
 
 // test GET /api/admin/sleepdata/generate?entries=x&user_id=y
-xdescribe("GET /api/admin/sleepdata/generate?entries=x&user_id=y", () => {
+describe("GET /api/admin/sleepdata/generate?entries=x&user_id=y", () => {
 
     let entries = 1;
     let user_id = 1;
