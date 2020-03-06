@@ -12,7 +12,7 @@ describe("Profile router", () => {
 
 // test GET /api/profile
 
-describe("GET /api/api/profile", () => {
+describe("GET /api/profile", () => {
 
     let email = Date.now();
     let password = email + "pass";
@@ -36,7 +36,7 @@ describe("GET /api/api/profile", () => {
 
                 let token = response.body.token;
 
-                request(server)
+                return request(server)
                 .get("/api/profile")
                 .set({Authorization: token})
                     .then(response => {
@@ -55,7 +55,7 @@ describe("GET /api/api/profile", () => {
 
                 let token = response.body.token;
 
-                request(server)
+                return request(server)
                 .get("/api/profile")
                 .set({Authorization: token})
                     .then(response => {

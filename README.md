@@ -274,6 +274,7 @@ none
 |------|----|-----------|-------|------------|
 |200|Success|Retrieved sleep entry.|none|```{ sleep entry } OR []```
 |401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
+|404|Error|Invalid sleep entry ID|"Could not get sleep entry with id (id)."|```message: "Could not get sleep entry with id (id)."```
 |500|Error|Server error.|"Could not get sleep data."|```{message: "Could not add new sleep data.", (error)}```
 
 ## **POST: /api/sleepdata**
@@ -357,7 +358,7 @@ none
 > ### Status Codes and Messages
 |Status|Type|Description|Message|Return Value
 |------|----|-----------|-------|------------|
-|200|Success|Edited sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
+|200|Success|Deleted sleep entry.|Sleep entry #(id) deleted.|```{message: "Sleep entry #(id) deleted."}```|none
 |401|Error|No token specified|"You must log in first to view this resource."|```message: "You must log in first to view this resource."```
 |403|Success|Could not delete sleep entry.|Sleep entry #(id) is not an entry you can delete.|```{message: "Sleep entry #(id) entry you can delete."}```|none
 |500|Error|Server error.|"Could delete sleep entry."|```{message: "Could not delete sleep entry.", (error)}```

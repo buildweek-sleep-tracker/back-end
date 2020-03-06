@@ -1,18 +1,16 @@
-/* istanbul ignore file */
-
 const request = require("supertest");
 
 const server = require("../../server");
 const database = require("../db-config");
 
-xdescribe("Auth router", () => {
+describe("Auth router", () => {
     test("tests run", () => {
         expect(true).toBe(true);
     })
 })
 
 // testing POST /api/auth/register
-xdescribe("POST /api/auth/register", () => {
+describe("POST /api/auth/register", () => {
 
     let email = Date.now();
     let password = email + "pass";
@@ -48,7 +46,7 @@ xdescribe("POST /api/auth/register", () => {
 
 // testing POST /api/auth/login
 
-xdescribe("POST /api/auth/login", () => {
+describe("POST /api/auth/login", () => {
 
     let email = Date.now();
     let password = email + "pass";
